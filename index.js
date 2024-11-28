@@ -28,6 +28,24 @@ app.get("/noAuth", async (req, res) => {
     res.render("index.ejs", {error: error.message});
   }
 });
+
+app.get("/basicAuth", async (req, res) => {
+  //TODO 3: use axios to do basic auth
+  //Specify only the secrets from page 2
+    try {
+      const response = await axios.get("https://secrets-api.appbrewery.com/all?page=2", {
+        auth: {
+          username: "jackz",
+          password: "IAmz",
+        }
+      });
+      const result = JSON.stringify(response.data) ;
+      res.render("index.ejs", { content: result });
+    } catch (error) {
+      console.error("Failed to make request:", error.message);
+      res.render("index.ejs", {error: error.message});
+    }
+});
   
 
 app.listen(port, () => {
